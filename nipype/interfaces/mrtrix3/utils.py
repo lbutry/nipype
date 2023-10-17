@@ -1186,3 +1186,44 @@ class SH2Amp(CommandLine):
         outputs = self.output_spec().get()
         outputs["out_file"] = op.abspath(self.inputs.out_file)
         return outputs
+
+class MaskFilterInputSpec(CommandLineInputSpec):
+    in_file = File(
+        exists=True,
+        mandatory=True,
+        argstr="%s",
+        position=-3,
+        desc="Input mask",
+    )
+    filter = traits.Str(
+        mandatory=True, 
+        argstr="%s",
+        position=-2,
+        desc="Filter to perform (e.g. dilate, erode)"
+    )
+    out_file = File(
+        name_source=["input_image"],
+        argstr="%s",
+        position=-1
+        desc="Output mask"
+    )
+    npass = traits.Int(
+        argstr="-npass %d",
+        position=1,
+        desc="Number of passes"
+    )
+
+class MaskFilterOutputSpec(TraitedSpec):
+    out_file = File(exists=True, desc="the filtered output mask")
+
+class MaskFilter(CommandLine):
+    _cmd = "maskfilter"
+    input_spec = MaskFilterInputSpec
+    output_spec = MaskFilterOutputSpec
+        
+    def _list_outputs(self):
+        outputs = self.output_spec().get()
+        outputs = self.output_spec().get()
+        inputs = self.input_spec().get()
+        outputs["output_image"] = self._gen_filename(inputs["input_image"], suffix="_filtered")
+        return outputs
