@@ -33,4 +33,5 @@ from .utils import (
     MaskFilter,
     MTNormalise,
     Generate5tt2gmwmi,
+    FOD2Dec,
 )

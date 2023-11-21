@@ -1187,6 +1187,7 @@ class SH2Amp(CommandLine):
         outputs["out_file"] = op.abspath(self.inputs.out_file)
         return outputs
 
+
 class MaskFilterInputSpec(CommandLineInputSpec):
     in_file = File(
         exists=True,
@@ -1385,4 +1386,53 @@ class Generate5tt2gmwmi(CommandLine):
     def _list_outputs(self):
         outputs = self.output_spec().get()
         outputs["mask_out"] = op.abspath(self.inputs.mask_out)
+        return outputs
+    
+
+class FOD2DecInputSpec(MRTrix3BaseInputSpec):
+    in_file = File(
+        exists=True,
+        argstr="%s",
+        mandatory=True,
+        position=-2,
+        desc="input FOD image",
+    )
+    out_file = File(
+        "brainmask.mif",
+        argstr="%s",
+        mandatory=True,
+        position=-1,
+        usedefault=True,
+        desc="output DEC image",
+    )
+
+
+class FOD2DecOutputSpec(TraitedSpec):
+    out_file = File(exists=True, desc="the output DEC image")
+
+
+class FOD2Dec(CommandLine):
+    """
+    Generate FOD-based DEC maps
+
+
+    Example
+    -------
+
+    >>> import nipype.interfaces.mrtrix3 as mrt
+    >>> dec = mrt.FOD2Dec()
+    >>> dec.inputs.in_file = 'fod.mif'
+    >>> dec.inputs.out_file = 'dec.mif'
+    >>> dec.cmdline                              
+    'fod2dec dwi.mif dec.mif'
+    >>> dec.run()                                
+    """
+
+    _cmd = "fod2dec"
+    input_spec = FOD2DecInputSpec
+    output_spec = FOD2DecOutputSpec
+
+    def _list_outputs(self):
+        outputs = self.output_spec().get()
+        outputs["out_file"] = op.abspath(self.inputs.out_file)
         return outputs
