@@ -225,14 +225,14 @@ class Generate5ttInputSpec(MRTrix3BaseInputSpec):
         "gif",
         "freesurfer",
         argstr="%s",
-        position=-3,
+        position=-4,
         mandatory=True,
         desc="tissue segmentation algorithm",
     )
     in_file = File(
-        exists=True, argstr="%s", mandatory=True, position=-2, desc="input image"
+        exists=True, argstr="%s", mandatory=True, position=-3, desc="input image"
     )
-    out_file = File(argstr="%s", mandatory=True, position=-1, desc="output image")
+    out_file = File(argstr="%s", mandatory=True, position=-2, desc="output image")
 
     nocrop = traits.Bool(
         argstr="-nocrop",
