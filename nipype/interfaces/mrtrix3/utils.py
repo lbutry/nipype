@@ -234,6 +234,12 @@ class Generate5ttInputSpec(MRTrix3BaseInputSpec):
     )
     out_file = File(argstr="%s", mandatory=True, position=-1, desc="output image")
 
+    nocrop = traits.Bool(
+        argstr="-nocrop",
+        position=-1, 
+        desc="Do NOT crop the resulting 5TT image to reduce its size"
+    )
+
 
 class Generate5ttOutputSpec(TraitedSpec):
     out_file = File(exists=True, desc="output image")
