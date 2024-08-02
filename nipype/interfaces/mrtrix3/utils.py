@@ -225,14 +225,14 @@ class Generate5ttInputSpec(MRTrix3BaseInputSpec):
         "gif",
         "freesurfer",
         argstr="%s",
-        position=-4,
+        position=1,
         mandatory=True,
         desc="tissue segmentation algorithm",
     )
     in_file = File(
-        exists=True, argstr="%s", mandatory=True, position=-3, desc="input image"
+        exists=True, argstr="%s", mandatory=True, position=2, desc="input image"
     )
-    out_file = File(argstr="%s", mandatory=True, position=-2, desc="output image")
+    out_file = File(argstr="%s", mandatory=True, position=3, desc="output image")
 
     nocrop = traits.Bool(
         argstr="-nocrop",
@@ -240,6 +240,18 @@ class Generate5ttInputSpec(MRTrix3BaseInputSpec):
         desc="Do NOT crop the resulting 5TT image to reduce its size"
     )
 
+    premasked = traits.Bool(
+        argstr="-premasked",
+        position=-2, 
+        desc="Skip BET, if input file is already BETted"
+    )
+
+    sgm_amyg_hipp = traits.Bool(
+        argstr="-sgm_amyg_hipp",
+        position=-3, 
+        desc="Represent the amygdalae and hippocampi as sub-cortical grey matter in the 5TT image"
+    )
+    
 
 class Generate5ttOutputSpec(TraitedSpec):
     out_file = File(exists=True, desc="output image")
